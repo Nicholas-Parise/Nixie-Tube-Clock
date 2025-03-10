@@ -1,35 +1,36 @@
-#include <MD_DS1307.h>
+#include "MD_DS1307.h"
 #include <Wire.h>
+#include <string.h>
 
-#define A1 4
-#define B1 5
-#define C1 6
-#define D1 7
+#define A1 3
+#define B1 4
+#define C1 5
+#define D1 6
 
-#define A2 8
-#define B2 9
-#define C2 10
-#define D2 11
+#define A2 7
+#define B2 8
+#define C2 9
+#define D2 10
 
-#define A3 12
-#define B3 13
-#define C3 14
-#define D3 15
+#define A3 11
+#define B3 12
+#define C3 13
+#define D3 14
 
-#define A4 30
-#define B4 29
-#define C4 28
-#define D4 26
+#define A4 2
+#define B4 1
+#define C4 0
+#define D4 25
 
-#define A5 23
-#define B5 22
-#define C5 21
-#define D5 20
+#define A5 22
+#define B5 21
+#define C5 20
+#define D5 19
 
-#define A6 19
-#define B6 18
-#define C6 17
-#define D6 16
+#define A6 18
+#define B6 17
+#define C6 16
+#define D6 15
 
 char A[6] = {A1, A2, A3, A4, A5, A6};
 char B[6] = {B1, B2, B3, B4, B5, B6};
@@ -79,12 +80,10 @@ void setup() {
 
 
 
-  for (char i = 0; i < 4; i++) {
-    digitalWrite(A[i], HIGH);
-    digitalWrite(B[i], HIGH);
-    digitalWrite(C[i], HIGH);
-    digitalWrite(D[i], HIGH);
+  for (char i = 0; i < 6; i++) {
+    off(i);
   }
+
   if (!RTC.isRunning())
     RTC.control(DS1307_CLOCK_HALT, DS1307_OFF);
 //  Serial.begin(9600);
@@ -109,12 +108,12 @@ void loop() {
 //  Serial.println(three);
 //  Serial.println(four);
 //  Serial.println(five);
-  writenumber(0, zero);
-  writenumber(1, one);
-  writenumber(2, two);
-  writenumber(3, three);
-  writenumber(4, four);
-  writenumber(5, five);
+  writenumber(0, digit_zero);
+  writenumber(1, digit_one);
+  writenumber(2, digit_two);
+  writenumber(3, digit_three);
+  writenumber(4, digit_four);
+  writenumber(5, digit_five);
   delay(1000);
 }
 
@@ -200,3 +199,22 @@ void off(int a) {
   digitalWrite(C[a], HIGH);
   digitalWrite(D[a], HIGH);
 }
+
+void writeTime()
+{
+  char monthStr[4];
+
+  // Extract compile time values
+  sscanf(__DATE__, "%s %d %d", monthStr, &RTC.dd, &RTC.yyyy);
+  sscanf(__TIME__, "%d:%d:%d", &RTC.h, &RTC.m, &RTC.s);
+
+  // Convert month name to number
+  const char* months = "JanFebMarAprMayJunJulAugSepOctNovDec";
+  RTC.mm = (strstr(months, monthStr) - months) / 3 + 1;
+
+  RTC.dow = 1; // You may need to calculate the actual weekday
+
+  
+  RTC.writeTime();
+}
+
