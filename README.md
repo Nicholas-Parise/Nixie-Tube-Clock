@@ -20,6 +20,11 @@ To protect the nixie tubes a current limiting resistor is required. The data she
 ### schematic
 ![schematic of clock](img/Schematic_Nixie_Clock.png)
 
+## PCB
+The pcb was created using easyEDA, it was my first time using this software and was pleasantly surprised how good it was.
+
+![PCB of clock](img/Nixie-Tube-Clock-PCB.svg)
+
 ## Flair
 I want some flair, I think just having the clock and only the clock would be boring, and burn in the tubes way faster than they should be. So to fix both issues I'll add some flair. I want the tubes to do a quick animation, I want something like in the animation below:   
 
