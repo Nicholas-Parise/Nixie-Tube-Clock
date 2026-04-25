@@ -17,7 +17,7 @@ Not shown on the schematic is a power switch used to turn off the high voltage p
 ### Protecting the tubes
 To protect the nixie tubes a current limiting resistor is required. The data sheet says 2.5ma can be used but to make my clock last longer I will use a smaller amount instead:			(170v - 133v) / 1.85ma = 20k ohm   
 
-### schematic
+## schematic
 ![schematic of clock](img/Schematic_Nixie_Clock.png)
 
 ## PCB
@@ -33,6 +33,10 @@ I want some flair, I think just having the clock and only the clock would be bor
 I think to achieve this effect I’ll simply increase each digit until it wraps around back to where it began or to its new value. I think it would be best if it happened every minute so it’s not distracting but still an interesting effect. My hope is that for the hour some of the numbers are up they will be able to have a second of no power.   
 Another feature I want is for the date to be displayed, to achieve this I want it to scroll across the screen like in a bus display. This way each part of the date Year, month and day can scroll past with a space in between making it easier to see.   
 
+##Programming
+The ATtinyCore (Universal) is used to progam the board.
+https://github.com/SpenceKonde/ATTinyCore/blob/v2.0.0-devThis-is-the-head-submit-PRs-against-this/Installation.md
+Note: The #4 Nixie tube drive IC (single minute bulb) must be dissconnected for the USB interface to function correctly.
 
 ## Parts list
 1	MH ET LIVE Tiny88 Arduino Board  

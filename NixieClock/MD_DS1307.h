@@ -138,9 +138,9 @@ The DS1307_LCD_Time example has examples of the different ways of interacting wi
  * the control action request.
  */
 #define DS1307_CLOCK_HALT   0 ///< Controls the clock halt (CH) bit. When set OFF the oscillator/clock is disabled. CH is disabled on power up.
-#define DS1307_SQW_RUN      1 ///< Controls the Square Wave Enable (SQWE) bit. SQWE is OFF when power is first applied.
-#define DS1307_SQW_TYPE_ON  2 ///< Controls the two RS bits that set the frequency of the square wave when the square wave output is enabled.
-#define DS1307_SQW_TYPE_OFF 3 ///< Controls the OUT bit that sets the output level of the SQW/OUT pin when the square wave output is disabled. On power up this hardware bit set to LOW.
+//#define DS1307_SQW_RUN      1 ///< Controls the Square Wave Enable (SQWE) bit. SQWE is OFF when power is first applied.
+//#define DS1307_SQW_TYPE_ON  2 ///< Controls the two RS bits that set the frequency of the square wave when the square wave output is enabled.
+//#define DS1307_SQW_TYPE_OFF 3 ///< Controls the OUT bit that sets the output level of the SQW/OUT pin when the square wave output is disabled. On power up this hardware bit set to LOW.
 #define DS1307_12H          4 ///< Controls whether the library is using 24 hour time or AM/PM designation. Setting ON enables 12 hour time and AM/PM.
 
 /**
@@ -149,18 +149,18 @@ The DS1307_LCD_Time example has examples of the different ways of interacting wi
  * These values are used as the return status from the
  * control() and status() methods.
  */
-#define DS1307_ERROR      0 ///< An error occurred executing the requested action
+//#define DS1307_ERROR      0 ///< An error occurred executing the requested action
 #define DS1307_ON         1 ///< Represents an ON status to set or returned from a get
 #define DS1307_OFF        2 ///< Represents an OFF status to set or returned from a get
-#define DS1307_SQW_1HZ    3 ///< Set or get 1Hz square wave specifier for SQW_TYPE parameter
-#define DS1307_SQW_4KHZ   4 ///< Set or get 4kHz square wave specifier for SQW_TYPE parameter
-#define DS1307_SQW_8KHZ   5 ///< Set or get 8kHz square wave specifier for SQW_TYPE parameter
-#define DS1307_SQW_32KHZ  6 ///< Set or get 32kHz square wave specifier for SQW_TYPE parameter
-#define DS1307_SQW_HIGH   7 ///< Represents a HIGH status to set or returned from a get
-#define DS1307_SQW_LOW    8 ///< Represents an LOW status to set or returned from a get
+//#define DS1307_SQW_1HZ    3 ///< Set or get 1Hz square wave specifier for SQW_TYPE parameter
+//#define DS1307_SQW_4KHZ   4 ///< Set or get 4kHz square wave specifier for SQW_TYPE parameter
+//#define DS1307_SQW_8KHZ   5 ///< Set or get 8kHz square wave specifier for SQW_TYPE parameter
+//#define DS1307_SQW_32KHZ  6 ///< Set or get 32kHz square wave specifier for SQW_TYPE parameter
+//#define DS1307_SQW_HIGH   7 ///< Represents a HIGH status to set or returned from a get
+//#define DS1307_SQW_LOW    8 ///< Represents an LOW status to set or returned from a get
 
 // Device parameters
-#define DS1307_RAM_MAX  64  ///< Total number of RAM registers that can be read from the device
+//#define DS1307_RAM_MAX  64  ///< Total number of RAM registers that can be read from the device
 
 /**
  * Core object for the MD_DS1307 library
@@ -176,18 +176,6 @@ class MD_DS1307
   * 
   */
   MD_DS1307();
-
-  /**
-  * Overloaded Class Constructor (ESP8266 only)
-  *
-  * Provides a way to assign custom SCL and SDA pins if the architecture
-  * supports them.
-  *
-  * \param sda  Pin number for the SDA signal
-  * \param scl  Pin number for the SCL signal
-  */
-  MD_DS1307(int sda, int scl);
-
   //--------------------------------------------------------------
  /** \name Methods for object and hardware control.
   * @{
@@ -203,24 +191,10 @@ class MD_DS1307
   *
   * \sa Software Overview section in the introduction for a table of valid combinations.
   *
-  * \param item    one of the defined code request values.
-  * \param value   value as one of the defined code status values.
-  */
-  void control(uint8_t item, uint8_t value);
+*/
+void startClock(void);
 
- /**
-  * Obtain the current setting for the specified parameter.
-  * 
-  * Any of the parameters that can be set from the control() method can be queried using
-  * this method. The code status value returned will be one of the defined values for the 
-  * control() method for each specific code request parameter.
-  *
-  * \sa Software Overview section in the introduction for a table of valid combinations.
-  *
-  * \param item  one of the defined control request values.
-  * \return one of the defined code status values or DS1307_ERROR if an error occurred.
-  */
-  uint8_t status(uint8_t item);
+
 
   /** @} */
 
@@ -248,16 +222,6 @@ class MD_DS1307
   */
   void writeTime(void);
 
- /**
- * Compatibility function - Read the current time
- *
- * Wrapper to read the current time.
- *
- * \sa readTime() method
- *
- * \return no return value.
- */
-  void now(void) { readTime(); }
 
  /**
   * Compatibility function - Check if RTC is running
@@ -268,7 +232,7 @@ class MD_DS1307
   *
   * \return true if running, false otherwise.
   */
-  boolean isRunning(void) { return(status(DS1307_CLOCK_HALT) != DS1307_ON); }
+  boolean isRunning(void);
 
   /** @} */
 
@@ -276,54 +240,7 @@ class MD_DS1307
  /** \name Miscellaneous methods
   * @{
   */
- /**
-  * Read the raw RTC clock data
-  *
-  * Read _len_ bytes from the RTC clock starting at _addr_ as raw data into the 
-  * buffer supplied. The size of the buffer should be at least MAX_BUF bytes long 
-  * (defined in the library cpp file).
-  * 
-  * Read address starts at 0.
-  *
-  * \sa writeRAM() method
-  *
-  * \param addr    starting address for the read.
-  * \param buf      address of the receiving byte buffer.
-  * \param len       number of bytes to read.
-  * \return number of bytes successfully read.
-  */
-  uint8_t readRAM(uint8_t addr, uint8_t* buf, uint8_t len);
 
- /**
-  * Write the raw RTC clock data
-  *
-  * Write _len_ bytes of data in the buffer supplied to the RTC clock starting at _addr_.
-  * The size of the buffer should be at least _len_ bytes long.
-  *
-  * Write address starts at 8 (first 7 bytes are for clock registers).
-  *
-  * \sa readRAM() method
-  *
-  * \param addr    starting address for the write.
-  * \param buf      address of the data buffer.
-  * \param len       number of bytes to write.
-  * \return number of bytes successfully written.
-  */
-  uint8_t writeRAM(uint8_t addr, uint8_t* buf, uint8_t len);
-
- /**
-  * Calculate day of week for a given date
-  *
-  * Given the specified date, calculate the day of week.
-  * 
-  * \sa Wikipedia https://en.wikipedia.org/wiki/Determination_of_the_day_of_the_week
-  *
-  * \param yyyy  year for specified date. yyyy must be > 1752.
-  * \param mm    month for the specified date where mm is in the range [1..12], 1 = January.
-  * \param dd    date for the specified date in the range [1..31], where 1 = first day of the month.
-  * \return dow value calculated [1..7], where 1 = Sunday.
-  */
-  uint8_t calcDoW(uint16_t yyyy, uint8_t mm, uint8_t dd);
 
  /** @} */
 
@@ -360,4 +277,3 @@ extern MD_DS1307 RTC;     ///< Library created instance of the RTC class
 #endif
 
 #endif
-
