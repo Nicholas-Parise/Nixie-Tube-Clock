@@ -33,7 +33,7 @@ I want some flair, I think just having the clock and only the clock would be bor
 I think to achieve this effect I’ll simply increase each digit until it wraps around back to where it began or to its new value. I think it would be best if it happened every minute so it’s not distracting but still an interesting effect. My hope is that for the hour some of the numbers are up they will be able to have a second of no power.   
 Another feature I want is for the date to be displayed, to achieve this I want it to scroll across the screen like in a bus display. This way each part of the date Year, month and day can scroll past with a space in between making it easier to see.   
 
-##Programming
+## Programming
 The ATtinyCore (Universal) is used to progam the board.
 https://github.com/SpenceKonde/ATTinyCore/blob/v2.0.0-devThis-is-the-head-submit-PRs-against-this/Installation.md
 Note: The #4 Nixie tube drive IC (single minute bulb) must be dissconnected for the USB interface to function correctly.
